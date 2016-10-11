@@ -216,7 +216,10 @@ public class Polynomial {
 		ne.deleteCharAt(ne.length()-1);
 		expression(ne.toString());
 	}
-	
+	public void add_order()
+	{
+		int i = 1;
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 			Scanner input = new Scanner(System.in);
