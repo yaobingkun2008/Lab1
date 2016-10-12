@@ -220,6 +220,7 @@ public class Polynomial {
 	{
 		int i = 1;
 		int j = 2;
+		int k =4;
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
