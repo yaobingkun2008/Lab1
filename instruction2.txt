@@ -1,0 +1,55 @@
+package com.tutorialspoint.struts2;
+import java.awt.print.Book;
+import java.sql.*;
+
+import java.sql.Connection;     //导入数据库连接对象
+import java.sql.DriverManager;  //导入数据库驱动管理对象
+import java.sql.ResultSet;      //导入数据记录集对象
+import java.sql.SQLException;   //导入数据SQL操作异常对象
+import java.sql.Statement;      //导入SQL操作接口对象
+  import java.sql.Statement;      //导入SQL操作接口对象
+import java.sql.DatabaseMetaData;  
+import java.sql.Driver;  
+ 
+
+import java.util.Enumeration;  
+import java.util.Vector;  
+public class Xfdata { 
+
+	public static  void main(String[] args) throws Exception
+    {
+        Class.forName("com.mysql.jdbc.Driver");
+         
+       
+        String url = "jdbc:mysql://localhost:3306/xfdata?useUnicode=true&characterEncoding=utf-8";  
+        Connection conn = DriverManager.getConnection(url, "root", "199463");
+        Statement stat = conn.createStatement();
+        ResultSet rs;
+        
+        stat.executeUpdate("drop table if exists book");
+        stat.executeUpdate("drop table if exists author");
+        
+        
+        stat.executeUpdate("create table book(isbn char(20), title char(20),authorID char(3),publishdate char(20),price char(15))");
+        stat.executeUpdate("create table author(authoriD char(3),name char(10),age char(3),country char(20))") ;
+        
+        stat.executeUpdate("");
+        stat.executeUpdate("");
+        stat.executeUpdate("");
+        
+        stat.executeUpdate("");
+        stat.executeUpdate("insert into author values('02', '老舍','80','中国')");
+     
+        
+      
+       
+        stat.close();
+<<<<<<< HEAD
+        conn.close();
+       //end;
+=======
+        
+
+>>>>>>> B2
+    }
+	}
