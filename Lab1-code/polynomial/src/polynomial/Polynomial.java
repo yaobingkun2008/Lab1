@@ -2,7 +2,7 @@ package polynomial;
 
 import java.util.Scanner;
 
-public class Polynomial {
+public class polynomial {
   public static boolean isequal(char a[],char b[],int a_length,int b_length){
     boolean isequal=true;
     if(a_length == b_length)
@@ -48,12 +48,11 @@ public class Polynomial {
 	  * @param a, (purpose), not modified by method.
 	  * @param in, (purpose), not modified by method.
 	  */
-    for(int c=length-1;c>=in+1;c--)
-    {
-      int[] b = new int[10000];
-      a[c+1] = a[b[c]];
-    }
-	  a[in+1] = t;
+		for(int c=length-1;c>=in+1;c--)
+		{
+			a[c+1] = a[c];
+ 		}
+		a[in+1] = t;
 	}
 	
   public static void expression(String command)//????
@@ -63,7 +62,7 @@ public class Polynomial {
 	int[] cunchu1 = new int[10];//?洢???
 	int[] moxiabiao = new int[10];
 	char[][] cunchu2 = new char[10][5];//?洢????
-    for(String a:command.split("\\+"))//???+?????????????????д???
+    for(String a:command.split("\\+"))//???+????????????????????
     {
       c++;
       x[c] = true;
@@ -134,65 +133,72 @@ public class Polynomial {
 	System.out.printf("\n");
   }
 	
-	public boolean simplify(String command,String suanshi)//????????????
+public String simplify(String command,String suanshi)//化简
+{
+	boolean finish = false;
+	char[] temp = new char[100];//交换的数组，用于存储算式
+	int length = suanshi.length();
+	suanshi.getChars(0,suanshi.length(),temp,0);
+	boolean error = false;
+	if(command.length()==0||command.length()<=9)
 	{
-		boolean finish = false;
-		char[] temp = new char[100];
-		int length = suanshi.length();
-		suanshi.getChars(0,suanshi.length(),temp,0);
-		boolean error = false;
-    for(String a:command.split("\\s"))
+		return "Error";
+	}
+    for(String a:command.split("\\s"))//把命令按照空格分隔
     {
-      if(a.length()!=9)
+      if(a.length()!=9)//如果不是命令，是赋值的3
       {
-        if(Character.isLetter(a.charAt(0)) && a.charAt(1)=='=')
+        if((Character.isLetter(a.charAt(0)) && a.length()>=3)&&(a.charAt(1)=='='))//如果赋值符合情况4
 		{
-		  int found = 0;
-          for(int u=0;u<length;u++)
+		  int found = 0;//标明有没有找到对应的东西
+          for(int u=0;u<length;u++)//66
           {
-		    if(temp[u] == a.charAt(0))
+		    if(temp[u] == a.charAt(0))//算式中找到，就取代7
             {
 			  found = 1;
 			  int add = 2;
-              for(int g=u;g<=a.length()-3+u;g++)
+              for(int g=u;g<=a.length()-3+u;g++)//9
               {
-				if(g==u)
+				if(g==u)//10
                 {
+				 // temp[g] = a.charAt(2);
 			      add++;
 				}
-                else
+                else//11
                 {
-                  temp[g] = a.charAt(2);
+                 // temp[g] = a.charAt(2);
                   movechar(temp,a.charAt(add),g-1,length);
                   length++;
+                  add++;
                 }
               }
 		    }
           }
-		  if(found == 0)
+		  if(found == 0)//如果没有找到13
           {
-			  System.out.println("ERROR!");
 		      error = true;
 			  break;
-			}
 		  }
-        else
-        {
-          System.out.println("ERROR!");
+	   }
+       else//输入的化简式非法？
+       {
           error = true;
           break;
-        }
-			}
-    }
-	if(!error)
-    {
-			String tt1 = "";
-			tt1 = tt1.copyValueOf(temp,0,length);
-			expression(tt1);
-			finish = true;
-    }
-		return finish;
-	}
+       }
+	 }
+   }
+   if(!error)
+   {
+	 String tt1 = "";
+	 tt1 = tt1.copyValueOf(temp,0,length);
+	//expression(tt1);
+	 return tt1;
+   }
+   else
+   {
+       return "Error";
+   }
+}
 	
 	
 	
@@ -201,35 +207,48 @@ public class Polynomial {
 	*
 	* @author George Bush
 	*/
-	public void derivative(String mmm,String s){
-		String[] tokens = s.split("[\\+]");
+	public String derivative(String mmm,String s){//s是新输入的字符串，mmm是要求的字母
+		String[] tokens = s.split("[\\+]");//将s按照加号分隔开
 		StringBuffer ne = new StringBuffer("");
-    for(int i=0;i<tokens.length;i++){
+		if(s.contains("-"))
+		{
+			return "error";
+		}
+    for(int i=0;i<tokens.length;i++){//对于每个单项式,求导！
       int ooo=0;
-      String[] temp = tokens[i].split("[\\*]");
+      String[] temp = tokens[i].split("[\\*]");//再对其进行用乘号的分隔，temp是各个项
       int ppp=0;
-      for(int j=0;j<temp.length;j++){
-	    if(temp[j].charAt(0)==mmm.charAt(5)){
-		    ooo++;
-		    ppp=j;
+      for(int j=0;j<temp.length;j++){//对于各个项
+    	  if(temp[j].length()==0)
+    	  {
+    		  return "error";
+    	  }
+	    if(temp[j].charAt(0)==mmm.charAt(4)){//如果那个项等于mmm的第五个字母
+		    ooo++;//这个单项式对应的次数加1
+		    ppp=j;//记录最后出现的项是第几项？
 		}			
       }
       if(ooo == 0){
     	  continue;
       }
-      else{
+      else{//先消掉最后一项，再给予系数
         for(int k=0;k<temp.length;k++){
 		  if(k!=ppp){
 			ne.append(temp[k]).append("*");
 		  }
         }
-        ne.append(String.valueOf(ooo));
+        ne.append(String.valueOf(ooo));//最后再乘上次数
         ooo=0;
       }
       ne.append("+");
     }
+    if(ne.length()==0)
+    {
+    	return "error";
+    }
 	ne.deleteCharAt(ne.length()-1);
-	expression(ne.toString());
+	return ne.toString();
+	//expression(ne.toString());
   }
 	
   public static void main(String[] args) {
@@ -245,12 +264,12 @@ public class Polynomial {
 				String com = input.nextLine();
 	  if(com.matches("!simplify[\\s]([\\w]=[\\d+])+"))
       {
-      Polynomial youbet = new Polynomial();
+      polynomial youbet = new polynomial();
 	    youbet.simplify(com, str);
 	  }
       else if(com.matches("!d/d[\\s][\\w]"))
 	  {
-        Polynomial youbet = new Polynomial();
+        polynomial youbet = new polynomial();
 		    youbet.derivative(com,str);
 	  }
       else 
